@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "br-app",
+    "slug": "br-app",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
