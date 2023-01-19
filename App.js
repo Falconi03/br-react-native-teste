@@ -1,21 +1,31 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react"
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+import Home from "./screens/home/Home";
+import Estoque from "./screens/estoque/Estoque";
+import BancoImagem from "./screens/banco-imagem/BancoImagem";
+import Financeiro from "./screens/financeiro/Financeiro";
+import Loja from "./screens/loja/Loja";
+import User from "./screens/user/User";
+import Plus from "./screens/plus/Plus";
+import Login from "./screens/login/Login";
+
+const Stack = createNativeStackNavigator()
+
+export default function App(){
+  return(
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Home" component={Home} options={{headerShown: false}}/>
+        <Stack.Screen name="Banco de Imagem" component={BancoImagem} options={{headerShown: false}}/>
+        <Stack.Screen name="Estoque" component={Estoque} options={{headerShown: false}}/>
+        <Stack.Screen name="Financeiro" component={Financeiro} options={{headerShown: false}}/>
+        <Stack.Screen name="Loja" component={Loja} options={{headerShown: false}}/>
+        <Stack.Screen name="User" component={User} options={{headerShown: false}}/>
+        <Stack.Screen name="Plus" component={Plus} options={{headerShown: false}}/>
+        <Stack.Screen name="Login" component={Login} options={{headerShown: false}}/>
+      </Stack.Navigator>
+    </NavigationContainer>
+  )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
