@@ -4,8 +4,18 @@ import Icon from 'react-native-vector-icons/FontAwesome5'
 
 import style from './plusStyle'
 import Page from '../../page/Page';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Plus({ navigation }) {
+
+    const logout = async () => {
+        try {
+            await AsyncStorage.removeItem('@br-app:user');
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
+
     return (
         <View style={style.container}>
             <Page navigation={navigation}>
@@ -42,7 +52,10 @@ export default function Plus({ navigation }) {
                         <Icon style={style.icon} name='credit-card' color='#fff' size={20} />
                         <Text style={style.PlusText}>Suas Compras</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={style.PlusBtn} onPress={() => navigation.navigate('Login')}>
+                    <TouchableOpacity style={style.PlusBtn} onPress={() => {
+                        logout()
+                        navigation.navigate('Login')
+                    }}>
                         <Icon style={style.icon} name='sign-out-alt' color='#fff' size={20} />
                         <Text style={style.PlusText}>Sair</Text>
                     </TouchableOpacity>

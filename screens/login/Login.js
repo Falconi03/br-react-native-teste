@@ -32,17 +32,22 @@ export default function Login({ navigation }) {
     const login = () => {
         const bodyparameters = { email: email, password: password }
         axios.post(`https://app.brms.com.br/api/v1/accounts/login/`, bodyparameters)
-            .then((res) => {
+            .then(async (res) => {
                 console.log(res.status)
                 setAccess(res.data.data.token.access)
-
+                try {
+                    await AsyncStorage.setItem('@br-app:user', JSON.stringify(res.data.data))
+                } catch (error) {
+                    console.log('NÃO FOI ARMAZENAR O USUARIO!', error)
+                }
+                navigation.navigate('Home')
             })
             .catch((error) => {
                 console.log(error.response)
             });
     }
-
-    const firstEstoque = () => {
+    /*
+     const firstEstoque = () => {
         axios.get(`https://app.brms.com.br/api/v1/estoque/saldo/?limit=9000`, config)
             .then(async (res) => {
                 console.log(res.status)
@@ -59,7 +64,7 @@ export default function Login({ navigation }) {
             .catch((error) => {
                 console.log(error.response)
             });
-    }
+    } 
 
     useEffect(() => {
         if (nextPage !== null) {
@@ -123,7 +128,7 @@ export default function Login({ navigation }) {
                 });
         }
     }, [nextPage])
-
+    */
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -145,12 +150,12 @@ export default function Login({ navigation }) {
                     <TouchableOpacity style={style.btnLogin} onPress={() => login()}>
                         <Text style={style.textBtn}>Entrar</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={style.btnLogin} onPress={() => firstEstoque()}>
+                    {/* <TouchableOpacity style={style.btnLogin} onPress={() => firstEstoque()}>
                         <Text style={style.textBtn}>Estoque</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={style.btnLogin} onPress={() => firstProdutos()}>
                         <Text style={style.textBtn}>Produtos</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                 </View>
             </KeyboardAvoidingView>
         </TouchableWithoutFeedback>
