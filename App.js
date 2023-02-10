@@ -1,6 +1,7 @@
 import React from "react"
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { StatusBar } from 'react-native'
 
 import Home from "./screens/home/Home";
 import Estoque from "./screens/estoque/Estoque";
@@ -14,19 +15,20 @@ import Load from "./screens/load/Load";
 
 const Stack = createNativeStackNavigator()
 
-export default function App(){
-  return(
+export default function App() {
+  return (
     <NavigationContainer>
+      {/* <StatusBar /> */}
       <Stack.Navigator>
-        <Stack.Screen name="Home" component={Home} options={{headerShown: false}}/>
-        <Stack.Screen name="Banco de Imagem" component={BancoImagem} options={{headerShown: false}}/>
-        <Stack.Screen name="Estoque" component={Estoque} options={{headerShown: false}}/>
-        <Stack.Screen name="Financeiro" component={Financeiro} options={{headerShown: false}}/>
-        <Stack.Screen name="Loja" component={Loja} options={{headerShown: false}}/>
-        <Stack.Screen name="User" component={User} options={{headerShown: false}}/>
-        <Stack.Screen name="Plus" component={Plus} options={{headerShown: false}}/>
-        <Stack.Screen name="Login" component={Login} options={{headerShown: false}}/>
-        <Stack.Screen name="Load" component={Load} options={{headerShown: false}}/>
+        <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
+        <Stack.Screen name="Banco de Imagem" component={BancoImagem} options={{ headerShown: false }} />
+        <Stack.Screen name="Estoque" component={Estoque} options={{ headerShown: false }} />
+        <Stack.Screen name="Financeiro" component={Financeiro} options={{ headerShown: false }} />
+        <Stack.Screen name="Loja" component={Loja} options={{ headerShown: false }} />
+        <Stack.Screen name="User" component={User} options={{ headerShown: false }} />
+        <Stack.Screen name="Plus" component={Plus} options={{ headerShown: false }} />
+        <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+        <Stack.Screen name="Load" component={Load} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   )

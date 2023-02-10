@@ -8,8 +8,14 @@ const Load = ({ navigation }) => {
 
     const [estoque, setEstoque] = useState(false)
     const [produto, setProduto] = useState(false)
+    const [vencidos, setVencidos] = useState(false)
+    const [aVencer, setaVencer] = useState(false)
+    const [baixados, setBaixados] = useState(false)
     const [estoquePage, setEstoquePage] = useState(null)
     const [produtoPage, setProdutoPage] = useState(null)
+    const [vencidosPage, setVencidosPage] = useState(null)
+    const [aVencerPage, setaVencerPage] = useState(null)
+    const [baixadosPage, setBaixadosPage] = useState(null)
     const [access, setAccess] = useState('')
 
     useEffect(() => {
@@ -47,6 +53,9 @@ const Load = ({ navigation }) => {
                     })
                     .catch((error) => {
                         console.log(error.response)
+                        if (error.response.status === 401) {
+                            navigation.navigate('Login')
+                        }
                     });
             }
             const firstProdutos = () => {
@@ -63,11 +72,74 @@ const Load = ({ navigation }) => {
                     })
                     .catch((error) => {
                         console.log(error.response)
+                        if (error.response.status === 401) {
+                            navigation.navigate('Login')
+                        }
+                    });
+            }
+            const firstVencidos = () => {
+                axios.get(`https://app.brms.com.br/api/v1/titulosreceber/vencidos/?limit=9000`, config)
+                    .then(async (res) => {
+                        console.log('vencidos', res.status)
+                        setVencidosPage(res.data.next)
+                        try {
+                            await AsyncStorage.setItem(`@br-app:vencidos-https://app.brms.com.br/api/v1/titulosreceber/vencidos/?limit=9000`, JSON.stringify(res.data))
+                            setVencidos(res.data.next === null ? true : false)
+                        } catch (error) {
+                            console.log('NÃO FOI POSSIVEL BAIXAR OS VENCIDOS', error)
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error.response)
+                        if (error.response.status === 401) {
+                            navigation.navigate('Login')
+                        }
+                    });
+            }
+            const firstaVencer = () => {
+                axios.get(`https://app.brms.com.br/api/v1/titulosreceber/titulosabertos/?limit=9000`, config)
+                    .then(async (res) => {
+                        console.log('a vencer', res.status)
+                        setaVencerPage(res.data.next)
+                        try {
+                            await AsyncStorage.setItem(`@br-app:a-vencer-https://app.brms.com.br/api/v1/titulosreceber/titulosabertos/?limit=9000`, JSON.stringify(res.data))
+                            setaVencer(res.data.next === null ? true : false)
+                        } catch (error) {
+                            console.log('NÃO FOI POSSIVEL BAIXAR OS A VENCER', error)
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error.response)
+                        if (error.response.status === 401) {
+                            navigation.navigate('Login')
+                        }
+                    });
+            }
+            const firstBaixados = () => {
+                axios.get(`https://app.brms.com.br/api/v1/titulosreceber/titulospagos/?limit=9000`, config)
+                    .then(async (res) => {
+                        console.log('baixados', res.status)
+                        setBaixadosPage(res.data.next)
+                        try {
+                            await AsyncStorage.setItem(`@br-app:baixados-https://app.brms.com.br/api/v1/titulosreceber/titulospagos/?limit=9000`, JSON.stringify(res.data))
+                            setBaixados(res.data.next === null ? true : false)
+                        } catch (error) {
+                            console.log('NÃO FOI POSSIVEL BAIXAR OS BAIXADOS', error)
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error.response)
+                        if (error.response.status === 401) {
+                            navigation.navigate('Login')
+                        }
                     });
             }
 
             firstEstoque()
             firstProdutos()
+            firstVencidos()
+            firstaVencer()
+            firstBaixados()
         }
     }, [access])
 
@@ -93,7 +165,6 @@ const Load = ({ navigation }) => {
         }
     }, [estoquePage])
 
-
     useEffect(() => {
         if (produtoPage !== null) {
             axios.get(`${String(produtoPage)}`, config)
@@ -114,7 +185,67 @@ const Load = ({ navigation }) => {
         }
     }, [produtoPage])
 
-    if (produto && estoque){
+    useEffect(() => {
+        if (vencidosPage !== null) {
+            axios.get(`${String(vencidosPage)}`, config)
+                .then(async (res) => {
+                    console.log(res.status)
+                    const storageName = res.data.next
+                    setVencidosPage(res.data.next)
+                    try {
+                        await AsyncStorage.setItem(`@br-vencidos-${String(storageName)}`, JSON.stringify(res.data))
+                        setVencidos(res.data.next === null ? true : false)
+                    } catch (error) {
+                        console.log('NÃO FOI POSSIVEL BAIXAR OS VENCIDOS', error)
+                    }
+                })
+                .catch((error) => {
+                    console.log(error.response)
+                });
+        }
+    }, [vencidosPage])
+
+    useEffect(() => {
+        if (aVencerPage !== null) {
+            axios.get(`${String(aVencerPage)}`, config)
+                .then(async (res) => {
+                    console.log(res.status)
+                    const storageName = res.data.next
+                    setaVencerPage(res.data.next)
+                    try {
+                        await AsyncStorage.setItem(`@br-a-vencer-${String(storageName)}`, JSON.stringify(res.data))
+                        setaVencer(res.data.next === null ? true : false)
+                    } catch (error) {
+                        console.log('NÃO FOI POSSIVEL BAIXAR OS A VENCER', error)
+                    }
+                })
+                .catch((error) => {
+                    console.log(error.response)
+                });
+        }
+    }, [aVencerPage])
+
+    useEffect(() => {
+        if (baixadosPage !== null) {
+            axios.get(`${String(baixadosPage)}`, config)
+                .then(async (res) => {
+                    console.log(res.status)
+                    const storageName = res.data.next
+                    setBaixadosPage(res.data.next)
+                    try {
+                        await AsyncStorage.setItem(`@br-baixados-${String(storageName)}`, JSON.stringify(res.data))
+                        setBaixados(res.data.next === null ? true : false)
+                    } catch (error) {
+                        console.log('NÃO FOI POSSIVEL BAIXAR OS BAIXADOS', error)
+                    }
+                })
+                .catch((error) => {
+                    console.log(error.response)
+                });
+        }
+    }, [baixadosPage])
+
+    if (produto && estoque) {
         navigation.navigate('Home')
     }
 
