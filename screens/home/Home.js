@@ -17,7 +17,6 @@ export default function Home({ navigation }) {
     getUser()
   }, [])
 
-  console.log(user)
 
   return (
     <View style={homeStyles.Home}>

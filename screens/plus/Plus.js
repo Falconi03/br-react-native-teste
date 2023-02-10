@@ -48,7 +48,7 @@ export default function Plus({ navigation }) {
                         <Icon style={style.icon} name='shopping-cart' color='#fff' size={20} />
                         <Text style={style.PlusText}>Seu Carrinho</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={style.PlusBtn} onPress={() => navigation.navigate('Plus')}>
+                    <TouchableOpacity style={style.PlusBtn} onPress={() => navigation.navigate('Load')}>
                         <Icon style={style.icon} name='credit-card' color='#fff' size={20} />
                         <Text style={style.PlusText}>Suas Compras</Text>
                     </TouchableOpacity>
