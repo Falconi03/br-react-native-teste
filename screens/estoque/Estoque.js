@@ -41,7 +41,7 @@ export default function Estoque({ navigation }) {
     getEstoque()
   }, [])
 
-  console.log(2, estoque)
+  console.log(2, estoque.slice(24028, 24029))
 
   return (
     <View style={styles.container}>

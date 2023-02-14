@@ -8,6 +8,9 @@ const Load = ({ navigation }) => {
 
     const [estoque, setEstoque] = useState(false)
     const [produto, setProduto] = useState(false)
+    const [eachProduto, setEachProduto] = useState(false)
+    const [allId, setAllid] = useState([])
+    const [produtos, setProdutos] = useState([])
     const [vencidos, setVencidos] = useState(false)
     const [aVencer, setaVencer] = useState(false)
     const [baixados, setBaixados] = useState(false)
@@ -137,9 +140,9 @@ const Load = ({ navigation }) => {
 
             firstEstoque()
             firstProdutos()
-            firstVencidos()
+            /* firstVencidos()
             firstaVencer()
-            firstBaixados()
+            firstBaixados() */
         }
     }, [access])
 
@@ -245,7 +248,77 @@ const Load = ({ navigation }) => {
         }
     }, [baixadosPage])
 
-    if (produto && estoque) {
+    const strogeNames = []
+    let resultsCopy = []
+    const produtosId = []
+
+
+    if (produto) {
+        const getProdutos = async () => {
+            try {
+                const response = await AsyncStorage.getAllKeys()
+                response.map((name) => {
+                    if (name.includes('@br-app:produto-all')) {
+                        strogeNames.push(name)
+                    }
+
+                })
+            } catch (error) {
+                console.log(error)
+            }
+            strogeNames.map(async (name, id) => {
+                try {
+                    const response = JSON.parse(await AsyncStorage.getItem(name))
+                    const results = response.results
+                    resultsCopy = [...resultsCopy, ...results]
+                    if (strogeNames.length === id + 1) {
+                        setProdutos(resultsCopy)
+                    }
+                } catch (error) {
+                    console.log(error)
+                }
+            })
+        }
+        getProdutos()
+
+
+    }
+    useEffect(() => {
+        produtos.map((produto, id) => {
+            if (produtosId.find((e) => e === produto.id)) {
+                null
+            } else {
+                produtosId.push(produto.id)
+
+            }
+            if (id + 1 === produtos.length) { setEachProduto(true) }
+
+        })
+        setAllid(produtosId)
+
+    }, [produtos])
+
+    useEffect(() => {
+        allId.map((produtoId, id) => {
+            
+            axios.get(`https://app.brms.com.br/api/v1/produto/lista_produto_2/?id=${produtoId}`, config)
+            .then(async (res) => {                   
+                try {
+                    await AsyncStorage.setItem(`@br-produto-${String(produtoId)}`, JSON.stringify(res.data))
+                    if(id+1 === produtos.length){setEachProduto(true)}
+                } catch (error) {
+                    console.log(`NÃO FOI POSSIVEL BAIXAR O PRODUTO ${produtoId}`, error)
+                }
+            })
+            .catch((error) => {
+                console.log(error.response)
+            });
+
+        })
+
+    }, [allId])
+
+    if (produto && estoque && eachProduto) {
         navigation.navigate('Home')
     }
 
