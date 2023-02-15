@@ -8,7 +8,8 @@ const produtoStyles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
-        alignSelf: 'center'
+        alignSelf: 'center',
+        paddingBottom: 60
     },
     img: {
         width: '100%',
@@ -47,6 +48,39 @@ const produtoStyles = StyleSheet.create({
     valorText: {
         alignSelf: 'flex-start',
         width: '60%'
+    },
+    linhaProduto: {
+        width: '100%',
+        flexDirection: 'row',
+        paddingVertical: 5,
+        justifyContent: 'space-around'
+    },
+    linhaItem: {
+        width:'30%',
+        textAlign:'center',
+    },
+    selectQnt: {
+        width:'30%',
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        marginHorizontal: 5,
+        paddingHorizontal: 5,
+        borderColor: '#aaa',
+        borderWidth: 1,
+        borderRadius: 5,
+        textAlign: 'center'
+    },
+    btnQnt:{
+        width: '33%',
+        justifyContent:'center',
+        alignItems:'center'
+    },
+    qnt:{
+        textAlign:'center',
+        width: '33%',
+        borderLeftWidth: 1,
+        borderRightWidth: 1,
+        borderColor: '#aaa',
     },
 
 });
