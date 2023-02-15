@@ -11,6 +11,7 @@ const Load = ({ navigation }) => {
     const [eachProduto, setEachProduto] = useState(false)
     const [allId, setAllid] = useState([])
     const [produtos, setProdutos] = useState([])
+    const [carrinho, setCarrinho] = useState([])
     const [vencidos, setVencidos] = useState(false)
     const [aVencer, setaVencer] = useState(false)
     const [baixados, setBaixados] = useState(false)
@@ -80,6 +81,24 @@ const Load = ({ navigation }) => {
                         }
                     });
             }
+            const firstCarrinho = () => {
+                axios.get(`https://app.brms.com.br/api/v1/pedido/pedido/`, config)
+                    .then(async (res) => {
+                        console.log('pedido', res.status)
+                        try {
+                            await AsyncStorage.setItem(`@br-app:pedido-https://app.brms.com.br/api/v1/produto/lista_produto_all_2/?limit=9000`, JSON.stringify(res.data))
+                            setCarrinho(res.data.next === null ? true : false)
+                        } catch (error) {
+                            console.log('NÃO FOI POSSIVEL BAIXAR OS PEDIDOS', error)
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error.response)
+                        if (error.response.status === 401) {
+                            navigation.navigate('Login')
+                        }
+                    });
+            }
             const firstVencidos = () => {
                 axios.get(`https://app.brms.com.br/api/v1/titulosreceber/vencidos/?limit=9000`, config)
                     .then(async (res) => {
@@ -140,6 +159,7 @@ const Load = ({ navigation }) => {
 
             firstEstoque()
             firstProdutos()
+            firstCarrinho()
             /* firstVencidos()
             firstaVencer()
             firstBaixados() */
@@ -318,7 +338,7 @@ const Load = ({ navigation }) => {
 
     }, [allId])
 
-    if (produto && estoque && eachProduto) {
+    if (produto && estoque && eachProduto && carrinho) {
         navigation.navigate('Home')
     }
 
