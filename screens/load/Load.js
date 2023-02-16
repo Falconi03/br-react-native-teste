@@ -6,20 +6,20 @@ import styles from './loadStyles'
 
 const Load = ({ navigation }) => {
 
-    const [estoque, setEstoque] = useState(false)
     const [produto, setProduto] = useState(false)
     const [eachProduto, setEachProduto] = useState(false)
     const [allId, setAllid] = useState([])
     const [produtos, setProdutos] = useState([])
     const [carrinho, setCarrinho] = useState([])
+    /* const [estoque, setEstoque] = useState(false)
     const [vencidos, setVencidos] = useState(false)
     const [aVencer, setaVencer] = useState(false)
     const [baixados, setBaixados] = useState(false)
     const [estoquePage, setEstoquePage] = useState(null)
-    const [produtoPage, setProdutoPage] = useState(null)
     const [vencidosPage, setVencidosPage] = useState(null)
     const [aVencerPage, setaVencerPage] = useState(null)
-    const [baixadosPage, setBaixadosPage] = useState(null)
+    const [baixadosPage, setBaixadosPage] = useState(null) */
+    const [produtoPage, setProdutoPage] = useState(null)
     const [access, setAccess] = useState('')
 
     useEffect(() => {
@@ -43,7 +43,45 @@ const Load = ({ navigation }) => {
 
     useEffect(() => {
         if (access.length > 0) {
-            const firstEstoque = () => {
+            const firstProdutos = () => {
+                axios.get(`https://app.brms.com.br/api/v1/produto/lista_produto_all_2/?limit=9000`, config)
+                .then(async (res) => {
+                        console.log('produto', res.status)
+                        setProdutoPage(res.data.next)
+                        try {
+                            await AsyncStorage.setItem(`@br-app:produto-all-https://app.brms.com.br/api/v1/produto/lista_produto_all_2/?limit=9000`, JSON.stringify(res.data))
+                            setProduto(res.data.next === null ? true : false)
+                        } catch (error) {
+                            console.log('NÃO FOI POSSIVEL BAIXAR OS PRODUTOS', error)
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error.response)
+                        if (error.response.status === 401) {
+                            navigation.navigate('Login')
+                        }
+                    });
+                }
+            const firstCarrinho = () => {
+                axios.get(`https://app.brms.com.br/api/v1/pedido/pedido/`, config)
+                .then(async (res) => {
+                    console.log('pedido', res.status)
+                    console.log('pedido', res.data)
+                    try {
+                        await AsyncStorage.setItem('@br-app:pedido', JSON.stringify(res.data))
+                        setCarrinho(res.data.next === null ? true : false)
+                    } catch (error) {
+                        console.log('NÃO FOI POSSIVEL BAIXAR OS PEDIDOS', error)
+                    }
+                })
+                .catch((error) => {
+                    console.log(error.response)
+                    if (error.response.status === 401) {
+                        navigation.navigate('Login')
+                    }
+                });
+            }
+            /*const firstEstoque = () => {
                 axios.get(`https://app.brms.com.br/api/v1/estoque/saldo/?limit=9000`, config)
                     .then(async (res) => {
                         console.log('estoque', res.status)
@@ -61,44 +99,7 @@ const Load = ({ navigation }) => {
                             navigation.navigate('Login')
                         }
                     });
-            }
-            const firstProdutos = () => {
-                axios.get(`https://app.brms.com.br/api/v1/produto/lista_produto_all_2/?limit=9000`, config)
-                    .then(async (res) => {
-                        console.log('produto', res.status)
-                        setProdutoPage(res.data.next)
-                        try {
-                            await AsyncStorage.setItem(`@br-app:produto-all-https://app.brms.com.br/api/v1/produto/lista_produto_all_2/?limit=9000`, JSON.stringify(res.data))
-                            setProduto(res.data.next === null ? true : false)
-                        } catch (error) {
-                            console.log('NÃO FOI POSSIVEL BAIXAR OS PRODUTOS', error)
-                        }
-                    })
-                    .catch((error) => {
-                        console.log(error.response)
-                        if (error.response.status === 401) {
-                            navigation.navigate('Login')
-                        }
-                    });
-            }
-            const firstCarrinho = () => {
-                axios.get(`https://app.brms.com.br/api/v1/pedido/pedido/`, config)
-                    .then(async (res) => {
-                        console.log('pedido', res.status)
-                        try {
-                            await AsyncStorage.setItem(`@br-app:pedido-https://app.brms.com.br/api/v1/produto/lista_produto_all_2/?limit=9000`, JSON.stringify(res.data))
-                            setCarrinho(res.data.next === null ? true : false)
-                        } catch (error) {
-                            console.log('NÃO FOI POSSIVEL BAIXAR OS PEDIDOS', error)
-                        }
-                    })
-                    .catch((error) => {
-                        console.log(error.response)
-                        if (error.response.status === 401) {
-                            navigation.navigate('Login')
-                        }
-                    });
-            }
+            } 
             const firstVencidos = () => {
                 axios.get(`https://app.brms.com.br/api/v1/titulosreceber/vencidos/?limit=9000`, config)
                     .then(async (res) => {
@@ -156,17 +157,17 @@ const Load = ({ navigation }) => {
                         }
                     });
             }
-
-            firstEstoque()
-            firstProdutos()
-            firstCarrinho()
-            /* firstVencidos()
+ 
+            firstEstoque() 
+            firstVencidos()
             firstaVencer()
             firstBaixados() */
+            firstProdutos()
+            firstCarrinho()
         }
     }, [access])
 
-    useEffect(() => {
+    /* useEffect(() => {
         if (estoquePage !== null) {
             console.log(`${String(estoquePage)}`)
             axios.get(`${String(estoquePage)}`, config)
@@ -186,7 +187,7 @@ const Load = ({ navigation }) => {
                     console.log(error.response)
                 });
         }
-    }, [estoquePage])
+    }, [estoquePage]) */
 
     useEffect(() => {
         if (produtoPage !== null) {
@@ -208,7 +209,7 @@ const Load = ({ navigation }) => {
         }
     }, [produtoPage])
 
-    useEffect(() => {
+    /* useEffect(() => {
         if (vencidosPage !== null) {
             axios.get(`${String(vencidosPage)}`, config)
                 .then(async (res) => {
@@ -226,9 +227,9 @@ const Load = ({ navigation }) => {
                     console.log(error.response)
                 });
         }
-    }, [vencidosPage])
+    }, [vencidosPage]) */
 
-    useEffect(() => {
+    /* useEffect(() => {
         if (aVencerPage !== null) {
             axios.get(`${String(aVencerPage)}`, config)
                 .then(async (res) => {
@@ -246,9 +247,9 @@ const Load = ({ navigation }) => {
                     console.log(error.response)
                 });
         }
-    }, [aVencerPage])
+    }, [aVencerPage]) */
 
-    useEffect(() => {
+    /* useEffect(() => {
         if (baixadosPage !== null) {
             axios.get(`${String(baixadosPage)}`, config)
                 .then(async (res) => {
@@ -266,7 +267,7 @@ const Load = ({ navigation }) => {
                     console.log(error.response)
                 });
         }
-    }, [baixadosPage])
+    }, [baixadosPage]) */
 
     const strogeNames = []
     let resultsCopy = []
@@ -320,25 +321,25 @@ const Load = ({ navigation }) => {
 
     useEffect(() => {
         allId.map((produtoId, id) => {
-            
+
             axios.get(`https://app.brms.com.br/api/v1/produto/lista_produto_2/?id=${produtoId}`, config)
-            .then(async (res) => {                   
-                try {
-                    await AsyncStorage.setItem(`@br-produto-${String(produtoId)}`, JSON.stringify(res.data))
-                    if(id+1 === produtos.length){setEachProduto(true)}
-                } catch (error) {
-                    console.log(`NÃO FOI POSSIVEL BAIXAR O PRODUTO ${produtoId}`, error)
-                }
-            })
-            .catch((error) => {
-                console.log(error.response)
-            });
+                .then(async (res) => {
+                    try {
+                        await AsyncStorage.setItem(`@br-produto-${String(produtoId)}`, JSON.stringify(res.data))
+                        if (id + 1 === produtos.length) { setEachProduto(true) }
+                    } catch (error) {
+                        console.log(`NÃO FOI POSSIVEL BAIXAR O PRODUTO ${produtoId}`, error)
+                    }
+                })
+                .catch((error) => {
+                    console.log(error.response)
+                });
 
         })
 
     }, [allId])
 
-    if (produto && estoque && eachProduto && carrinho) {
+    if (produto/*  && estoque */ && eachProduto && carrinho) {
         navigation.navigate('Home')
     }
 

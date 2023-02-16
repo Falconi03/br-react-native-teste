@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, View, Image, TouchableOpacity, ScrollView } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import Page from '../../page/Page';
 import styles from './produtoStyles'
@@ -8,7 +9,65 @@ import styles from './produtoStyles'
 const Quantidade = (props) => {
 
     const [qnt, setQnt] = useState(0)
+    const [qntCarrinho, setQntCarrinho] = useState(0)
+    const [prodNoCarrinho, setProdNoCarrinho] = useState(false)
     const tam = props.tam
+    const produto = props.produto
+    const cor = props.cor
+    const carrinho = props.carrinho ? props.carrinho : null
+
+    useEffect(() => {
+        setQnt(0)
+    }, [cor])
+
+
+    useEffect(() => {
+        if (carrinho.results) {
+            carrinho.results[0].itens.find((produto) => {
+                if (produto.sku === tam.codigo_base) {
+                    setQntCarrinho(produto.quantidade)
+                    setQnt(produto.quantidade)
+                    setProdNoCarrinho(true)
+                }
+            })
+        }
+    }, [carrinho, cor])
+
+    useEffect(() => {
+        if (carrinho) {
+            const novoCarrinho = async () => {
+
+                try {
+                    await AsyncStorage.setItem('@br-app:pedido', JSON.stringify(carrinho))
+                    console.log(2, carrinho)
+                } catch (error) {
+                    console.log('NÃO FOI POSSIVEL BAIXAR OS PEDIDOS', error)
+                }
+            }
+            if (!prodNoCarrinho && qnt > 0 && qnt !== qntCarrinho) {
+                carrinho.results[0].itens.push({
+                    "descricao": `${produto.descricao} ${cor.descricao} ${tam.descricao}`,
+                    "preco": produto.preco_lista,
+                    "quantidade": qnt,
+                    "sku": tam.codigo_base
+                })
+                novoCarrinho()
+
+            }
+            /* if (prodNoCarrinho && qnt !== qntCarrinho) {
+                carrinho.results[0].itens.push({
+                    "descricao": `${produto.descricao} ${cor.descricao} ${tam.descricao}`,
+                    "preco": produto.preco_lista,
+                    "quantidade": qnt,
+                    "sku": tam.codigo_base
+                })
+                novoCarrinho()
+
+            } */
+        }
+    }, [qnt])
+
+
 
     return (
         <View style={styles.linhaProduto}>
@@ -17,6 +76,7 @@ const Quantidade = (props) => {
                 <TouchableOpacity style={styles.btnQnt} onPress={() => setQnt(qnt > 0 ? qnt - 1 : 0)}>
                     <Icon name='minus' color='#000' size={10} />
                 </TouchableOpacity>
+
                 <Text style={styles.qnt}>{qnt}</Text>
                 <TouchableOpacity style={styles.btnQnt} onPress={() => setQnt(qnt < tam.saldo_3 ? qnt + 1 : tam.saldo_3)}>
                     <Icon name='plus' color='#000' size={10} />
@@ -32,6 +92,24 @@ export default function Produto({ route, navigation }) {
     const produto = route.params.results[0]
     const especTam = []
     const [cor, setCor] = useState(produto.itens[0])
+    const [carrinho, setCarrinho] = useState([])
+
+    const getCarrinho = async () => {
+
+        try {
+            const response = JSON.parse(await AsyncStorage.getItem('@br-app:pedido'))
+            setCarrinho(response)
+        } catch (error) {
+            console.log(error)
+        }
+
+    }
+
+    useEffect(() => {
+        getCarrinho()
+    }, [])
+
+    console.log(0, carrinho)
 
 
     produto.itens.map((tamanhos) => {
@@ -44,7 +122,6 @@ export default function Produto({ route, navigation }) {
     })
     especTam.sort()
 
-    console.log(produto)
 
     return (
         <Page navigation={navigation}>
@@ -53,10 +130,10 @@ export default function Produto({ route, navigation }) {
                     <Image
                         style={styles.img}
                         source={require(`../../assets/produto-sem-imagem.jpg`)}
-                    onError={({ currentTarget }) => {
-                        currentTarget.onerror = null; // prevents looping
-                        currentTarget.src = `../../assets/produto-sem-imagem.jpg`;
-                    }} />
+                        onError={({ currentTarget }) => {
+                            currentTarget.onerror = null; // prevents looping
+                            currentTarget.src = `../../assets/produto-sem-imagem.jpg`;
+                        }} />
                     <View style={styles.corButtons}>
                         {produto.itens.map((cor, id) => {
                             if (cor.itens.length > 0) {
@@ -100,7 +177,7 @@ export default function Produto({ route, navigation }) {
 
                     {cor.itens.map((tam) => {
                         return (
-                            <Quantidade tam={tam} />
+                            <Quantidade tam={tam} cor={cor} produto={produto} carrinho={carrinho} />
                         )
                     })}
                 </View>

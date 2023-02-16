@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { Text, View, ScrollView, TouchableOpacity } from 'react-native';
+import { Text, View, ScrollView, TouchableOpacity, TextInput, TouchableWithoutFeedback, KeyboardAvoidingView, Keyboard } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import MiniCard from '../../components/mini-card/MiniCard';
@@ -11,6 +11,9 @@ export default function Loja({ navigation }) {
 
     const [produtos, setProdutos] = useState([])
     const [num, setNum] = useState([0, 21])
+    const [search, setSearch] = useState('a')
+    const prodFiltardos = []
+
 
     const strogeNames = []
     let resultsCopy = []
@@ -58,36 +61,58 @@ export default function Loja({ navigation }) {
         setNum([produtos.length - (produtos.length - (Math.trunc(produtos.length / 21) * 21)), produtos.length])
     }
 
+    produtos.slice(num[0], num[1]).map((item) => {
+        if (item.descricao.toUpperCase().includes(search.toUpperCase()) || item.codigo.includes(search)) {
+            return (
+                prodFiltardos.push(item)
+            )
+        }
+    })
+
     return (
-        <View style={styles.Loja}>
-            <Page navigation={navigation}>
-                <ScrollView>
-                    <Text style={styles.title}>LOJA</Text>
-                    <View style={styles.produtos}>
-                        {produtos.slice(num[0], num[1]).map((produto, id) => {
-                            return (
-                                <MiniCard produto={produto} navigation={navigation}/>
-                            )
-                        })}
-                    </View>
-                    <View style={styles.buttons}>
-                        <TouchableOpacity style={styles.btn} onPress={() => first()}>
-                            <Icon name='angle-double-left' color='#fff' size={20} />
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.btn} onPress={() => prev()}>
-                            <Icon name='angle-left' color='#fff' size={20} />
-                        </TouchableOpacity>
-                        <Text style={styles.textBtn}>Página {Math.ceil(num[1] / 21)} de {Math.ceil(produtos.length / 21)}</Text>
-                        <TouchableOpacity style={styles.btn} onPress={() => next()}>
-                            <Icon name='angle-right' color='#fff' size={20} />
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.btn} onPress={() => last()}>
-                            <Icon name='angle-double-right' color='#fff' size={20} />
-                        </TouchableOpacity>
-                    </View>
-                </ScrollView>
-            </Page>
-        </View>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style={styles.Loja}>
+                <Page navigation={navigation}>
+                    <ScrollView>
+                        <View style={styles.search}>
+                            <Text style={styles.searchText}>Busca: </Text>
+                            <TextInput onChangeText={setSearch} style={styles.searchInput}></TextInput>
+                        </View>
+                        <View style={styles.produtos}>
+                            {search.length > 0 ?
+                                prodFiltardos.map((produto, id) => {
+                                    return (
+                                        <MiniCard key={id} produto={produto} navigation={navigation} />
+                                    )
+                                }) :
+                                produtos.slice(num[0], num[1]).map((produto, id) => {
+                                    return (
+                                        <MiniCard key={id} produto={produto} navigation={navigation} />
+                                    )
+                                })
+                            }
+                        </View>
+                        {search.length === 0 ?
+                            <View style={styles.buttons}>
+                                <TouchableOpacity style={styles.btn} onPress={() => first()}>
+                                    <Icon name='angle-double-left' color='#fff' size={20} />
+                                </TouchableOpacity>
+                                <TouchableOpacity style={styles.btn} onPress={() => prev()}>
+                                    <Icon name='angle-left' color='#fff' size={20} />
+                                </TouchableOpacity>
+                                <Text style={styles.textBtn}>Página {Math.ceil(num[1] / 21)} de {Math.ceil(produtos.length / 21)}</Text>
+                                <TouchableOpacity style={styles.btn} onPress={() => next()}>
+                                    <Icon name='angle-right' color='#fff' size={20} />
+                                </TouchableOpacity>
+                                <TouchableOpacity style={styles.btn} onPress={() => last()}>
+                                    <Icon name='angle-double-right' color='#fff' size={20} />
+                                </TouchableOpacity>
+                            </View>
+                            : null}
+                    </ScrollView>
+                </Page>
+            </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
     );
 }
 

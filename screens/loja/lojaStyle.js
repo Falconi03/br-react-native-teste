@@ -9,9 +9,13 @@ const lojaStyles = StyleSheet.create({
         justifyContent: 'center',
     },
     title: {
+        width: '100%',
+        textAlign: 'center',
         fontWeight: 'bold',
+        fontSize: 20,
         color: '#fff',
-        padding: 10
+        paddingTop: 10
+
     },
     produtos: {
         flexDirection: 'row',
@@ -37,8 +41,30 @@ const lojaStyles = StyleSheet.create({
         color: '#fff',
         fontWeight: 'bold',
         paddingHorizontal: 5,
-        textAlignVertical:'center'
+        textAlignVertical: 'center'
     },
+    search: {
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        paddingBottom: 20,
+        paddingTop: 40
+        
+    },
+    searchText: {
+        color: '#fff',
+        fontSize: 20,
+        textAlignVertical:'center'
+        
+    },
+    searchInput: {
+        backgroundColor: '#fff',
+        width: '50%',
+        borderRadius: 10,
+        textAlign:'center',
+        textAlignVertical:'center'
+        
+    }
 
 });
 export default lojaStyles

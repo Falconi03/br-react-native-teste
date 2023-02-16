@@ -26,10 +26,10 @@ export default function MiniCard(props) {
                 <Image
                     style={style.img}
                     source={require(`../../assets/produto-sem-imagem.jpg`)}
-                    /* onError={({ currentTarget }) => {
+                    onError={({ currentTarget }) => {
                         currentTarget.onerror = null; // prevents looping
                         currentTarget.src = `../../assets/produto-sem-imagem.jpg`;
-                    }} */ />
+                    }} />
                 <View style={style.conteudo}>
                     <Text style={style.descricao}>{produto.descricao.slice(0, 30)}</Text>
                     <View style={style.preco}>
