@@ -2,6 +2,7 @@ import { StyleSheet } from 'react-native'
 
 const produtoStyles = StyleSheet.create({
     produto: {
+        flexDirection: 'row',
         width: '95%',
         marginVertical: 10,
         color: '#fff',
@@ -9,11 +10,18 @@ const produtoStyles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         alignSelf: 'center',
-        paddingBottom: 60
+        marginBottom: 60
+        
+    },
+    produtoContent:{
+        width: '85%',
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        alignSelf: 'center',
     },
     img: {
         width: '100%',
-        height: 400,
+        height: 350,
     },
     prodDescricao: {
         fontWeight: '500',
@@ -81,6 +89,14 @@ const produtoStyles = StyleSheet.create({
         borderLeftWidth: 1,
         borderRightWidth: 1,
         borderColor: '#aaa',
+    },
+    miniImgs:{
+        width: '15%'
+    },
+    miniImg:{
+        marginVertical: 8,
+        width: '100%',
+        height: 50,
     },
 
 });

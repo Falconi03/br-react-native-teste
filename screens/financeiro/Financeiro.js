@@ -3,10 +3,13 @@ import { StyleSheet, Text, View } from 'react-native';
 import Page from '../../page/Page';
 
 export default function Financeiro({ navigation }) {
+
+
     return (
         <View style={styles.container}>
             <Page navigation={navigation}>
                 <Text>Financeiro</Text>
+                
             </Page>
         </View>
     );

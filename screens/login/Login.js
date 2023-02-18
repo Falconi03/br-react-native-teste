@@ -27,12 +27,13 @@ export default function Login({ navigation }) {
         axios.post(`https://app.brms.com.br/api/v1/accounts/login/`, bodyparameters)
             .then(async (res) => {
                 console.log(res.status)
+                const results = res.data.data
                 try {
                     await AsyncStorage.setItem('@br-app:user', JSON.stringify(res.data.data))
                 } catch (error) {
                     console.log('NÃO FOI ARMAZENAR O USUARIO!', error)
                 }
-                navigation.navigate('Load')
+                navigation.navigate('Load' ,{results})
             })
             .catch((error) => {
                 console.log(error.response)

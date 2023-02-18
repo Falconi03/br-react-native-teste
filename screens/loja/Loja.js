@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { Text, View, ScrollView, TouchableOpacity, TextInput, TouchableWithoutFeedback, KeyboardAvoidingView, Keyboard } from 'react-native';
+import { Text, View, ScrollView, TouchableOpacity, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import MiniCard from '../../components/mini-card/MiniCard';
@@ -11,7 +11,7 @@ export default function Loja({ navigation }) {
 
     const [produtos, setProdutos] = useState([])
     const [num, setNum] = useState([0, 21])
-    const [search, setSearch] = useState('a')
+    const [search, setSearch] = useState('')
     const prodFiltardos = []
 
 
@@ -70,28 +70,26 @@ export default function Loja({ navigation }) {
     })
 
     return (
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style={styles.Loja}>
-                <Page navigation={navigation}>
-                    <ScrollView>
-                        <View style={styles.search}>
-                            <Text style={styles.searchText}>Busca: </Text>
-                            <TextInput onChangeText={setSearch} style={styles.searchInput}></TextInput>
-                        </View>
-                        <View style={styles.produtos}>
-                            {search.length > 0 ?
-                                prodFiltardos.map((produto, id) => {
-                                    return (
-                                        <MiniCard key={id} produto={produto} navigation={navigation} />
-                                    )
-                                }) :
-                                produtos.slice(num[0], num[1]).map((produto, id) => {
-                                    return (
-                                        <MiniCard key={id} produto={produto} navigation={navigation} />
-                                    )
-                                })
-                            }
-                        </View>
+        <View style={styles.Loja}>
+            <Page navigation={navigation}>
+                <ScrollView>
+                    <View style={styles.search}>
+                        <Text style={styles.searchText}>Busca: </Text>
+                        <TextInput onChangeText={setSearch} style={styles.searchInput}></TextInput>
+                    </View>
+                    <View style={styles.produtos}>
+                        {search.length > 0 ?
+                            prodFiltardos.map((produto, id) => {
+                                return (
+                                    <MiniCard key={id} produto={produto} navigation={navigation} />
+                                )
+                            }) :
+                            produtos.slice(num[0], num[1]).map((produto, id) => {
+                                return (
+                                    <MiniCard key={id} produto={produto} navigation={navigation} />
+                                )
+                            })
+                        }
                         {search.length === 0 ?
                             <View style={styles.buttons}>
                                 <TouchableOpacity style={styles.btn} onPress={() => first()}>
@@ -109,10 +107,10 @@ export default function Loja({ navigation }) {
                                 </TouchableOpacity>
                             </View>
                             : null}
-                    </ScrollView>
-                </Page>
-            </KeyboardAvoidingView>
-        </TouchableWithoutFeedback>
+                    </View>
+                </ScrollView>
+            </Page>
+        </View>
     );
 }
 
