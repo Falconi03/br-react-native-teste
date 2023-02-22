@@ -1,21 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 
 import homeStyles from './homeStyle';
 import Page from '../../page/Page';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Home({ navigation }) {
-
-  const [user, setUser] = useState(null)
-
-  useEffect(() => {
-    const getUser = async () => {
-      let response = await AsyncStorage.getItem('@br-app:user')
-      setUser(JSON.parse(response))
-    }
-    getUser()
-  }, [])
 
 
   return (

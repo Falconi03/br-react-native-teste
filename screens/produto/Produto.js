@@ -11,12 +11,13 @@ const Quantidade = (props) => {
     const [qnt, setQnt] = useState(0)
     const [qntCarrinho, setQntCarrinho] = useState(0)
     const [prodNoCarrinho, setProdNoCarrinho] = useState(false)
-
     const [load, setLoad] = useState(false)
     const tam = props.tam
     const produto = props.produto
     const cor = props.cor
-    const carrinho = props.carrinho ? props.carrinho : null
+    const carrinho = props.carrinho
+    
+
 
     useEffect(() => {
         setQnt(0)
@@ -25,23 +26,23 @@ const Quantidade = (props) => {
 
     useEffect(() => {
         if (carrinho.results) {
-            carrinho.results[0].itens.find((produto) => {
+            carrinho.results[0].itens.map((produto) => {
                 if (produto.sku === tam.codigo_base) {
                     setQntCarrinho(produto.quantidade)
                     setQnt(produto.quantidade)
                     setProdNoCarrinho(true)
                 }
+                
             })
         }
     }, [carrinho, cor])
 
     useEffect(() => {
-        if (carrinho) {
-
             const novoCarrinho = async () => {
 
                 try {
                     await AsyncStorage.setItem('@br-app:pedido', JSON.stringify(carrinho))
+                    props.getCarrinho()
                     setLoad(false)
                 } catch (error) {
                     console.log('NÃO FOI POSSIVEL BAIXAR OS PEDIDOS', error)
@@ -60,27 +61,24 @@ const Quantidade = (props) => {
             }
 
             if (prodNoCarrinho && qnt !== qntCarrinho) {
-                carrinho.results[0].itens.find((produto, id) => {
+                carrinho.results[0].itens.map((produto, id) => {
                     if (produto.sku === tam.codigo_base) {
                         if (qnt === 0) {
                             carrinho.results[0].itens.splice(id, 1)
                             setProdNoCarrinho(false)
                         } else {
                             carrinho.results[0].itens[id].quantidade = qnt
-                            setProdNoCarrinho(false)
                         }
                     }
                     novoCarrinho()
                 })
             }
-        }
     }, [qnt])
-
 
 
     return (
         <View style={styles.linhaProduto}>
-            <Text style={styles.linhaItem}>{tam.descricao}</Text>
+            <Text style={styles.linhaItem}>{/* tam.descricao */prodNoCarrinho?'true': 'false'}</Text>
             <View style={styles.selectQnt}>
                 <TouchableOpacity style={styles.btnQnt} onPress={() => {
                     setQnt(qnt > 0 ? !load ? qnt - 1 : qnt : 0)
@@ -109,9 +107,9 @@ export default function Produto({ route, navigation }) {
     const itensId = []
     const [cor, setCor] = useState(produto.itens[0])
     const [imagem, setImagem] = useState(1)
-    const [carrinho, setCarrinho] = useState([])
     const [imgError, setImgError] = useState(false)
     const [corProduto, setCorProduto] = useState(0)
+    const [carrinho, setCarrinho] = useState([])
 
     const img = [
         `https://clienteportal.brms.com.br/images/produto/${produto.codigo + produto.itens[corProduto].codigo}-1.jpg`,
@@ -127,7 +125,6 @@ export default function Produto({ route, navigation }) {
         `https://clienteportal.brms.com.br/images/produto/${produto.codigo + produto.itens[corProduto].codigo}-11.jpg`,
         `https://clienteportal.brms.com.br/images/produto/${produto.codigo + produto.itens[corProduto].codigo}-12.jpg`,
     ]
-
 
     const getCarrinho = async () => {
 
@@ -176,14 +173,14 @@ export default function Produto({ route, navigation }) {
                         {img.map((imagem, id) => {
                             return (
                                 <TouchableOpacity key={id}
-                                 onPress={() => {
-                                    setImagem(id + 1)
-                                    setImgError(false)
-                                }}>
+                                    onPress={() => {
+                                        setImagem(id + 1)
+                                        setImgError(false)
+                                    }}>
                                     <View>
                                         <Image
                                             style={styles.miniImg}
-                                            source={{ uri: imagem }}/>
+                                            source={{ uri: imagem }} />
                                     </View>
                                 </TouchableOpacity>
                             )
@@ -243,7 +240,7 @@ export default function Produto({ route, navigation }) {
 
                         {cor.itens.map((tam, id) => {
                             return (
-                                <Quantidade tam={tam} cor={cor} produto={produto} carrinho={carrinho} key={id} />
+                                <Quantidade tam={tam} cor={cor} produto={produto} key={id} carrinho={carrinho} getCarrinho={getCarrinho} />
                             )
                         })}
                     </View>
