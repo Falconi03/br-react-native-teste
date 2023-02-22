@@ -13,6 +13,7 @@ import Plus from "./screens/plus/Plus";
 import Login from "./screens/login/Login";
 import Load from "./screens/load/Load";
 import Produto from "./screens/produto/Produto";
+import Carrinho from "./screens/carrinho/Carrinho";
 
 const Stack = createNativeStackNavigator()
 
@@ -23,6 +24,7 @@ export default function App() {
       <Stack.Navigator>
         <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
         <Stack.Screen name="Banco de Imagem" component={BancoImagem} options={{ headerShown: false }} />
+        <Stack.Screen name="Carrinho" component={Carrinho} options={{ headerShown: false }} />
         <Stack.Screen name="Estoque" component={Estoque} options={{ headerShown: false }} />
         <Stack.Screen name="Financeiro" component={Financeiro} options={{ headerShown: false }} />
         <Stack.Screen name="Loja" component={Loja} options={{ headerShown: false }} />

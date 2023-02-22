@@ -24,7 +24,7 @@ export default function Plus({ navigation }) {
                         <Icon style={style.icon} name='th-large' color='#fff' size={20} />
                         <Text style={style.PlusText}>Home</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={style.PlusBtn} onPress={() => navigation.navigate('Banco de Imagem')} >
+                    {/* <TouchableOpacity style={style.PlusBtn} onPress={() => navigation.navigate('Banco de Imagem')} >
                         <Icon style={style.icon} name='image' color='#fff' size={20} />
                         <Text style={style.PlusText}>Banco Imagem</Text>
                     </TouchableOpacity>
@@ -35,16 +35,16 @@ export default function Plus({ navigation }) {
                     <TouchableOpacity style={style.PlusBtn} onPress={() => navigation.navigate('Financeiro')}>
                         <Icon style={style.icon} name='dollar-sign' color='#fff' size={20} />
                         <Text style={style.PlusText}>Financeiro</Text>
+                    </TouchableOpacity> */}
+                    <TouchableOpacity style={style.PlusBtn} onPress={() => navigation.navigate('User')}>
+                        <Icon style={style.icon} name='user' color='#fff' size={20} />
+                        <Text style={style.PlusText}>User</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={style.PlusBtn} onPress={() => navigation.navigate('Loja')}>
                         <Icon style={style.icon} name='store' color='#fff' size={20} />
                         <Text style={style.PlusText}>Loja</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={style.PlusBtn} onPress={() => navigation.navigate('User')}>
-                        <Icon style={style.icon} name='user' color='#fff' size={20} />
-                        <Text style={style.PlusText}>User</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={style.PlusBtn} onPress={() => navigation.navigate('Plus')}>
+                    <TouchableOpacity style={style.PlusBtn} onPress={() => navigation.navigate('Carrinho')}>
                         <Icon style={style.icon} name='shopping-cart' color='#fff' size={20} />
                         <Text style={style.PlusText}>Seu Carrinho</Text>
                     </TouchableOpacity>

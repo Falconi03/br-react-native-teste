@@ -183,10 +183,7 @@ export default function Produto({ route, navigation }) {
                                     <View>
                                         <Image
                                             style={styles.miniImg}
-                                            source={{ uri: imagem }}
-                                            onError={({ currentTarget }) => {
-                                                ;
-                                            }} />
+                                            source={{ uri: imagem }}/>
                                     </View>
                                 </TouchableOpacity>
                             )
