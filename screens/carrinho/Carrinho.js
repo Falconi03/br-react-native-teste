@@ -1,16 +1,19 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import Page from '../../page/Page';
 import styles from './carrinhoStyle'
 import Icon from 'react-native-vector-icons/FontAwesome5'
+import { CarrinhoContext } from '../../context/CarrinhoContext';
 
 const Quantidade = (props) => {
     const [qnt, setQnt] = useState(props.qnt)
     const [load, setLoad] = useState(false)
     const [imgError, setImgError] = useState(false)
+    const { carrinho} = useContext(CarrinhoContext)
     
-    const carrinho = props.carrinho
+    
+    /* const carrinho = props.carrinho */
     const id = props.id
     const itens = props.itens
 
@@ -86,7 +89,8 @@ const Quantidade = (props) => {
 
 export default function Carrinho({ navigation }) {
 
-    const [carrinho, setCarrinho] = useState([])
+    /* const [carrinho, setCarrinho] = useState([]) */
+    const {carrinho, setCarrinho } = useContext(CarrinhoContext)
     let total = 0
 
 
@@ -123,7 +127,7 @@ export default function Carrinho({ navigation }) {
                                         key={id}
                                         id={id}
                                         getCarrinho={getCarrinho}
-                                        carrinho={carrinho} />
+                                        /* carrinho={carrinho} */ />
                                 )
                             })}
                             <View style={styles.total}>

@@ -5,6 +5,12 @@
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "icon": "./assets/br_branco-preto.png",
+    "splash": {
+      "image":"./assets/splash.png",
+      "resize": "contain",
+      "backgroundColor": "#000"
+    }
   }
 }

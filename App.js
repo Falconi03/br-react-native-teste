@@ -14,6 +14,7 @@ import Login from "./screens/login/Login";
 import Load from "./screens/load/Load";
 import Produto from "./screens/produto/Produto";
 import Carrinho from "./screens/carrinho/Carrinho";
+import { CarrinhoContextProvider } from "./context/CarrinhoContext";
 
 const Stack = createNativeStackNavigator()
 
@@ -21,19 +22,21 @@ export default function App() {
   return (
     <NavigationContainer>
       {/* <StatusBar /> */}
-      <Stack.Navigator>
-        <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
-        <Stack.Screen name="Banco de Imagem" component={BancoImagem} options={{ headerShown: false }} />
-        <Stack.Screen name="Carrinho" component={Carrinho} options={{ headerShown: false }} />
-        <Stack.Screen name="Estoque" component={Estoque} options={{ headerShown: false }} />
-        <Stack.Screen name="Financeiro" component={Financeiro} options={{ headerShown: false }} />
-        <Stack.Screen name="Loja" component={Loja} options={{ headerShown: false }} />
-        <Stack.Screen name="User" component={User} options={{ headerShown: false }} />
-        <Stack.Screen name="Plus" component={Plus} options={{ headerShown: false }} />
-        <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
-        <Stack.Screen name="Load" component={Load} options={{ headerShown: false }} />
-        <Stack.Screen name="Produto" component={Produto} options={{ headerShown: false }} />
-      </Stack.Navigator>
+      <CarrinhoContextProvider>
+        <Stack.Navigator>
+          <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
+          <Stack.Screen name="Banco de Imagem" component={BancoImagem} options={{ headerShown: false }} />
+          <Stack.Screen name="Carrinho" component={Carrinho} options={{ headerShown: false }} />
+          <Stack.Screen name="Estoque" component={Estoque} options={{ headerShown: false }} />
+          <Stack.Screen name="Financeiro" component={Financeiro} options={{ headerShown: false }} />
+          <Stack.Screen name="Loja" component={Loja} options={{ headerShown: false }} />
+          <Stack.Screen name="User" component={User} options={{ headerShown: false }} />
+          <Stack.Screen name="Plus" component={Plus} options={{ headerShown: false }} />
+          <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+          <Stack.Screen name="Load" component={Load} options={{ headerShown: false }} />
+          <Stack.Screen name="Produto" component={Produto} options={{ headerShown: false }} />
+        </Stack.Navigator>
+      </CarrinhoContextProvider>
     </NavigationContainer>
   )
 }

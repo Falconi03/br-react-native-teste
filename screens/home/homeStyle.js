@@ -9,9 +9,13 @@ const homeStyles = StyleSheet.create({
     },
     container: {
         flex: 1,
+        paddingTop:20,
         paddingBottom: 70,
-        padding: 20,
+        marginHorizontal: 10,
         justifyContent: 'center',
+        alignItems:'center',
+        overflow: 'hidden'
+        
     },
     title: {
         fontSize: 20,
@@ -19,16 +23,15 @@ const homeStyles = StyleSheet.create({
         color: '#fff',
     },
     homeImg: {
-        width: 'auto',
-        height: 70,
-        backgroundColor: '#000'
-    },
-    homeContainerText1: {
-        padding: 10,
+        width: 1000,
+        height: 170,
         backgroundColor: '#000',
+        
     },
-    homeContainerText2: {
-        padding: 10,
+    homeContainerText: {
+        width: "100%",
+        paddingVertical: 50,
+        paddingHorizontal: 20,
         backgroundColor: '#000',
         alignItems: 'center'
     },

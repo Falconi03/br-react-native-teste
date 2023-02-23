@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Text, View, Image, TouchableOpacity, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import Page from '../../page/Page';
 import styles from './produtoStyles'
+import { CarrinhoContext } from '../../context/CarrinhoContext';
 
 
 const Quantidade = (props) => {
@@ -15,7 +16,8 @@ const Quantidade = (props) => {
     const tam = props.tam
     const produto = props.produto
     const cor = props.cor
-    const carrinho = props.carrinho
+    /* const carrinho = props.carrinho */
+    const {carrinho} = useContext(CarrinhoContext)
     
 
 
@@ -78,7 +80,7 @@ const Quantidade = (props) => {
 
     return (
         <View style={styles.linhaProduto}>
-            <Text style={styles.linhaItem}>{/* tam.descricao */prodNoCarrinho?'true': 'false'}</Text>
+            <Text style={styles.linhaItem}>{tam.descricao}</Text>
             <View style={styles.selectQnt}>
                 <TouchableOpacity style={styles.btnQnt} onPress={() => {
                     setQnt(qnt > 0 ? !load ? qnt - 1 : qnt : 0)
@@ -109,7 +111,8 @@ export default function Produto({ route, navigation }) {
     const [imagem, setImagem] = useState(1)
     const [imgError, setImgError] = useState(false)
     const [corProduto, setCorProduto] = useState(0)
-    const [carrinho, setCarrinho] = useState([])
+    /* const [carrinho, setCarrinho] = useState([]) */
+    const {setCarrinho} = useContext(CarrinhoContext)
 
     const img = [
         `https://clienteportal.brms.com.br/images/produto/${produto.codigo + produto.itens[corProduto].codigo}-1.jpg`,
@@ -240,7 +243,13 @@ export default function Produto({ route, navigation }) {
 
                         {cor.itens.map((tam, id) => {
                             return (
-                                <Quantidade tam={tam} cor={cor} produto={produto} key={id} carrinho={carrinho} getCarrinho={getCarrinho} />
+                                <Quantidade 
+                                tam={tam} 
+                                cor={cor} 
+                                produto={produto} 
+                                key={id} 
+                                /* carrinho={carrinho} */ 
+                                getCarrinho={getCarrinho} />
                             )
                         })}
                     </View>
