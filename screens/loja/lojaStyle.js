@@ -7,23 +7,13 @@ const lojaStyles = StyleSheet.create({
         backgroundColor: '#2d353c',
         alignItems: 'center',
         justifyContent: 'center',
-
-    },
-    title: {
-        width: '100%',
-        textAlign: 'center',
-        fontWeight: 'bold',
-        fontSize: 20,
-        color: '#fff',
-        paddingTop: 10
-
+        marginVertical: 20,
     },
     produtos: {
         flexDirection: 'row',
         overflow: 'scroll',
         flexWrap: 'wrap',
-        justifyContent: 'center',
-        paddingBottom: 80,
+        justifyContent: 'center',       
 
     },
     buttons: {
@@ -63,7 +53,6 @@ const lojaStyles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         paddingBottom: 20,
-        paddingTop: 40
 
     },
     searchText: {

@@ -3,22 +3,22 @@ import { StyleSheet } from "react-native";
 const carrinhoStyle = StyleSheet.create({
     Carrinho: {
         width: '95%',
-        marginVertical: 10,
+        marginVertical: 20,
         color: '#fff',
         flex: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
         alignSelf: 'center',
-        marginBottom: 60,
         borderRadius: 10,
-        justifyContent: 'center'
+        justifyContent: 'center',
+        paddingVertical: 20,
+        
     },
     title: {
         width: '100%',
         textAlign: 'center',
-        /* fontWeight: 'bold', */
         fontSize: 20,
-        padding: 10
+        paddingBottom: 20
 
     },
     produtos: {

@@ -53,6 +53,10 @@ export default function Loja({ navigation }) {
         getProdutos()
     }, [])
 
+    useEffect(() => {
+        setNum([0, 21])
+    }, [search])
+
     const first = () => {
         setNum([0, 21])
         if (ref.current) {
@@ -87,9 +91,9 @@ export default function Loja({ navigation }) {
     })
 
     return (
-        <View style={styles.Loja}>
-            <Page navigation={navigation}>
-                <ScrollView ref={ref}>
+        <Page navigation={navigation}>
+            <ScrollView ref={ref}>
+                <View style={styles.Loja}>
                     <View style={styles.search}>
                         <Text style={styles.searchText}>Busca: </Text>
                         <TextInput onChangeText={setSearch} style={styles.searchInput}></TextInput>
@@ -107,7 +111,7 @@ export default function Loja({ navigation }) {
                                 )
                             })
                         }
-                        {search.length === 0 ?
+                        {search.length === 0 &&
                             <View style={styles.buttons}>
                                 <TouchableOpacity style={styles.btnLeft} onPress={() => first()}>
                                     <Icon name='angle-double-left' color='#fff' size={20} />
@@ -123,11 +127,11 @@ export default function Loja({ navigation }) {
                                     <Icon name='angle-double-right' color='#fff' size={20} />
                                 </TouchableOpacity>
                             </View>
-                            : null}
+                        }
                     </View>
-                </ScrollView>
-            </Page>
-        </View>
+                </View>
+            </ScrollView>
+        </Page >
     );
 }
 

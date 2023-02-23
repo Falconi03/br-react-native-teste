@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View } from 'react-native';
 
-import style from './pageStyle'
+import styles from './pageStyle'
 import Menu from "../components/menu/Menu";
 import Header from "../components/header/Header";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -21,15 +21,17 @@ export default function Page(props) {
                 props.navigation.navigate('Login')
             }
         }
-        getUser()        
+        getUser()
     }, [])
-    
+
 
     return (
-        
-        <View style={style.Page}>
+
+        <View style={styles.Page}>
             <Header />
-            {props.children}
+            <View style={styles.conteudo}>
+                {props.children}
+            </View>
             <Menu navigation={props.navigation} />
         </View>
     )
