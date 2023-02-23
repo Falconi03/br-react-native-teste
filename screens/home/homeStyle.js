@@ -30,7 +30,7 @@ const homeStyles = StyleSheet.create({
     },
     homeContainerText: {
         width: "100%",
-        paddingVertical: 50,
+        paddingVertical: 30,
         paddingHorizontal: 20,
         backgroundColor: '#000',
         alignItems: 'center'
@@ -42,7 +42,7 @@ const homeStyles = StyleSheet.create({
     homeLink: {
         backgroundColor: '#ff0000',
         alignItems: 'center',
-        padding: 10,
+        paddingVertical: 10,
         width: '95%',
         borderRadius: 10,
         margin: 10,

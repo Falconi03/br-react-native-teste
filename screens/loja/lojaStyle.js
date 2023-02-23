@@ -23,7 +23,7 @@ const lojaStyles = StyleSheet.create({
         overflow: 'scroll',
         flexWrap: 'wrap',
         justifyContent: 'center',
-        paddingBottom: 60,
+        paddingBottom: 80,
 
     },
     buttons: {
@@ -36,12 +36,27 @@ const lojaStyles = StyleSheet.create({
         backgroundColor: '#20252a',
 
     },
+    btnLeft: {
+        padding: 5,
+        backgroundColor: '#20252a',
+        borderTopLeftRadius: 10,
+        borderBottomLeftRadius: 10
+
+    },
+    btnRight: {
+        padding: 5,
+        backgroundColor: '#20252a',
+        borderTopRightRadius: 10,
+        borderBottomRightRadius: 10
+
+    },
     textBtn: {
         backgroundColor: '#20252a',
         color: '#fff',
         fontWeight: 'bold',
-        paddingHorizontal: 5,
-        textAlignVertical: 'center'
+        padding: 5,
+        textAlignVertical: 'center',
+        verticalAlign: 'center'
     },
     search: {
         width: '100%',

@@ -6,6 +6,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import MiniCard from '../../components/mini-card/MiniCard';
 import Page from '../../page/Page';
 import styles from './lojaStyle'
+import { useScrollToTop } from '@react-navigation/native';
+import { useRef } from 'react';
 
 export default function Loja({ navigation }) {
 
@@ -13,6 +15,9 @@ export default function Loja({ navigation }) {
     const [num, setNum] = useState([0, 21])
     const [search, setSearch] = useState('')
     const prodFiltardos = []
+    const ref = useRef(null);
+
+    useScrollToTop(ref);
 
 
     const strogeNames = []
@@ -50,15 +55,27 @@ export default function Loja({ navigation }) {
 
     const first = () => {
         setNum([0, 21])
+        if (ref.current) {
+            ref.current.scrollTo({ y: 0, animated: true })
+        }
     }
     const prev = () => {
         num[0] > 0 ? setNum([num[0] - 21, num[0]]) : setNum([0, 21])
+        if (ref.current) {
+            ref.current.scrollTo({ y: 0, animated: true })
+        }
     }
     const next = () => {
         num[1] < produtos.length ? num[1] + 21 < produtos.length ? setNum([num[0] + 21, num[1] + 21]) : setNum([num[0] + 21, produtos.length]) : null
+        if (ref.current) {
+            ref.current.scrollTo({ y: 0, animated: true })
+        }
     }
     const last = () => {
         setNum([produtos.length - (produtos.length - (Math.trunc(produtos.length / 21) * 21)), produtos.length])
+        if (ref.current) {
+            ref.current.scrollTo({ y: 0, animated: true })
+        }
     }
 
     produtos.slice(num[0], num[1]).map((item) => {
@@ -72,7 +89,7 @@ export default function Loja({ navigation }) {
     return (
         <View style={styles.Loja}>
             <Page navigation={navigation}>
-                <ScrollView>
+                <ScrollView ref={ref}>
                     <View style={styles.search}>
                         <Text style={styles.searchText}>Busca: </Text>
                         <TextInput onChangeText={setSearch} style={styles.searchInput}></TextInput>
@@ -92,7 +109,7 @@ export default function Loja({ navigation }) {
                         }
                         {search.length === 0 ?
                             <View style={styles.buttons}>
-                                <TouchableOpacity style={styles.btn} onPress={() => first()}>
+                                <TouchableOpacity style={styles.btnLeft} onPress={() => first()}>
                                     <Icon name='angle-double-left' color='#fff' size={20} />
                                 </TouchableOpacity>
                                 <TouchableOpacity style={styles.btn} onPress={() => prev()}>
@@ -102,7 +119,7 @@ export default function Loja({ navigation }) {
                                 <TouchableOpacity style={styles.btn} onPress={() => next()}>
                                     <Icon name='angle-right' color='#fff' size={20} />
                                 </TouchableOpacity>
-                                <TouchableOpacity style={styles.btn} onPress={() => last()}>
+                                <TouchableOpacity style={styles.btnRight} onPress={() => last()}>
                                     <Icon name='angle-double-right' color='#fff' size={20} />
                                 </TouchableOpacity>
                             </View>
