@@ -4,13 +4,13 @@ import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import Page from '../../page/Page';
 import styles from './carrinhoStyle'
 import Icon from 'react-native-vector-icons/FontAwesome5'
-import { CarrinhoContext } from '../../context/CarrinhoContext';
+import { Context } from '../../context/Context';
 
 const Quantidade = (props) => {
     const [qnt, setQnt] = useState(props.qnt)
     const [load, setLoad] = useState(false)
     const [imgError, setImgError] = useState(false)
-    const { carrinho} = useContext(CarrinhoContext)
+    const { carrinho } = useContext(Context)
     
     
     /* const carrinho = props.carrinho */
@@ -89,8 +89,7 @@ const Quantidade = (props) => {
 
 export default function Carrinho({ navigation }) {
 
-    /* const [carrinho, setCarrinho] = useState([]) */
-    const {carrinho, setCarrinho } = useContext(CarrinhoContext)
+    const {carrinho, setCarrinho } = useContext(Context)
     let total = 0
 
 

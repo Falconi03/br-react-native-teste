@@ -51,6 +51,7 @@ export default function Loja({ navigation }) {
 
     useEffect(() => {
         getProdutos()
+        setSearch('')
     }, [])
 
     useEffect(() => {
@@ -82,7 +83,7 @@ export default function Loja({ navigation }) {
         }
     }
 
-    produtos.slice(num[0], num[1]).map((item) => {
+    produtos.map((item) => {
         if (item.descricao.toUpperCase().includes(search.toUpperCase()) || item.codigo.includes(search)) {
             return (
                 prodFiltardos.push(item)
@@ -100,7 +101,7 @@ export default function Loja({ navigation }) {
                     </View>
                     <View style={styles.produtos}>
                         {search.length > 0 ?
-                            prodFiltardos.map((produto, id) => {
+                            prodFiltardos.slice(num[0], num[1]).map((produto, id) => {
                                 return (
                                     <MiniCard key={id} produto={produto} navigation={navigation} />
                                 )
@@ -111,23 +112,21 @@ export default function Loja({ navigation }) {
                                 )
                             })
                         }
-                        {search.length === 0 &&
-                            <View style={styles.buttons}>
-                                <TouchableOpacity style={styles.btnLeft} onPress={() => first()}>
-                                    <Icon name='angle-double-left' color='#fff' size={20} />
-                                </TouchableOpacity>
-                                <TouchableOpacity style={styles.btn} onPress={() => prev()}>
-                                    <Icon name='angle-left' color='#fff' size={20} />
-                                </TouchableOpacity>
-                                <Text style={styles.textBtn}>Página {Math.ceil(num[1] / 21)} de {Math.ceil(produtos.length / 21)}</Text>
-                                <TouchableOpacity style={styles.btn} onPress={() => next()}>
-                                    <Icon name='angle-right' color='#fff' size={20} />
-                                </TouchableOpacity>
-                                <TouchableOpacity style={styles.btnRight} onPress={() => last()}>
-                                    <Icon name='angle-double-right' color='#fff' size={20} />
-                                </TouchableOpacity>
-                            </View>
-                        }
+                        <View style={styles.buttons}>
+                            <TouchableOpacity style={styles.btnLeft} onPress={() => first()}>
+                                <Icon name='angle-double-left' color='#fff' size={20} />
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.btn} onPress={() => prev()}>
+                                <Icon name='angle-left' color='#fff' size={20} />
+                            </TouchableOpacity>
+                            <Text style={styles.textBtn}>Página {Math.ceil(num[1] / 21)} de {search.length === 0 ?Math.ceil(produtos.length / 21):Math.ceil(prodFiltardos.length / 21)}</Text>
+                            <TouchableOpacity style={styles.btn} onPress={() => next()}>
+                                <Icon name='angle-right' color='#fff' size={20} />
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.btnRight} onPress={() => last()}>
+                                <Icon name='angle-double-right' color='#fff' size={20} />
+                            </TouchableOpacity>
+                        </View>
                     </View>
                 </View>
             </ScrollView>

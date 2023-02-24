@@ -1,27 +1,15 @@
 import { StyleSheet } from 'react-native'
 
 const homeStyles = StyleSheet.create({
-    Home: {
-        color: '#fff',
+     Home: {
+        height: '100%',
         backgroundColor: '#2d353c',
         alignItems: 'center',
-        justifyContent: 'center',
-    },
-    container: {
-        flex: 1,
-        paddingTop:20,
-        paddingBottom: 70,
-        marginHorizontal: 10,
-        justifyContent: 'center',
-        alignItems:'center',
+        marginVertical: 20,
+        marginHorizontal: 20,
         overflow: 'hidden'
-        
-    },
-    title: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        color: '#fff',
-    },
+    }, 
+    
     homeImg: {
         width: 1000,
         height: 170,

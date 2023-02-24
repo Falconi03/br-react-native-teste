@@ -1,19 +1,22 @@
 import React, { createContext, useState } from "react";
 
-export const CarrinhoContext = createContext({})
+export const Context = createContext({})
 
-export const CarrinhoContextProvider = ({ children }) => {
+export const ContextProvider = ({ children }) => {
 
     const [carrinho, setCarrinho] = useState({})
+    const [user, setUser] = useState({})
 
     return (
-        <CarrinhoContext.Provider value={
+        <Context.Provider value={
             {
                 carrinho,
                 setCarrinho,
+                user,
+                setUser,
             }
         }>
             {children}
-        </CarrinhoContext.Provider>
+        </Context.Provider>
     )
 }

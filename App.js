@@ -14,7 +14,7 @@ import Login from "./screens/login/Login";
 import Load from "./screens/load/Load";
 import Produto from "./screens/produto/Produto";
 import Carrinho from "./screens/carrinho/Carrinho";
-import { CarrinhoContextProvider } from "./context/CarrinhoContext";
+import { ContextProvider } from "./context/Context";
 
 const Stack = createNativeStackNavigator()
 
@@ -22,7 +22,7 @@ export default function App() {
   return (
     <NavigationContainer>
       {/* <StatusBar /> */}
-      <CarrinhoContextProvider>
+      <ContextProvider>
         <Stack.Navigator>
           <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
           <Stack.Screen name="Banco de Imagem" component={BancoImagem} options={{ headerShown: false }} />
@@ -36,7 +36,7 @@ export default function App() {
           <Stack.Screen name="Load" component={Load} options={{ headerShown: false }} />
           <Stack.Screen name="Produto" component={Produto} options={{ headerShown: false }} />
         </Stack.Navigator>
-      </CarrinhoContextProvider>
+      </ContextProvider>
     </NavigationContainer>
   )
 }

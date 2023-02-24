@@ -1,16 +1,18 @@
 import { StyleSheet } from 'react-native'
 
 const produtoStyles = StyleSheet.create({
-    produto: {
+    Produto: {
         flexDirection: 'row',
         width: '95%',
-        marginVertical: 10,
+        marginVertical: 20,
+        paddingVertical: 20,
         color: '#fff',
         flex: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
         alignSelf: 'center',
-        marginBottom: 60
+        borderRadius: 10,
+        overflow: 'hidden'
         
     },
     produtoContent:{

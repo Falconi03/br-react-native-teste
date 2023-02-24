@@ -10,7 +10,8 @@ const Load = (props) => {
 
     const [produto, setProduto] = useState(false)
     const [eachProduto, setEachProduto] = useState(false)
-    const [carrinho, setCarrinho] = useState([])
+    const [clienteDados, setClienteDados] = useState(false)
+    const [carrinho, setCarrinho] = useState(false)
     const strogeNames = []
     let resultsCopy = []
     const produtosId = []
@@ -21,7 +22,7 @@ const Load = (props) => {
     }
 
 
-    const firstProdutos = () => {
+    const getProdutos = () => {
         axios.get(`https://app.brms.com.br/api/v1/produto/lista_produto_all_2/?limit=9000`, config)
             .then(async (res) => {
                 console.log('produto', res.status)
@@ -39,7 +40,7 @@ const Load = (props) => {
                 }
             });
     }
-    const firstCarrinho = () => {
+    const getCarrinho = () => {
         axios.get(`https://app.brms.com.br/api/v1/pedido/pedido/`, config)
             .then(async (res) => {
                 console.log('pedido', res.status)
@@ -58,25 +59,28 @@ const Load = (props) => {
             });
 
     }
-
-    const getUser = async () => {
-        try {
-            let response = await AsyncStorage.getItem('@br-app:user')
-            setAccess(JSON.parse(response).token.access)
-            const config = {
-                headers: {
-                    'Authorization': 'Bearer ' + JSON.parse(response).token.access
+    const getClienteDados = () => {
+        axios.get(`https://app.brms.com.br/api/v1/cliente/get_cliente/`, config)
+            .then(async (res) => {
+                console.log('cliente dados', res.status)
+                try {
+                    await AsyncStorage.setItem('@br-app:cliente-dados', JSON.stringify(res.data))
+                    setClienteDados(res.data.next === null ? true : false)
+                } catch (error) {
+                    console.log('NÃO FOI POSSIVEL BAIXAR OS DADOS DO CLIENTE', error)
                 }
-            }
+            })
+            .catch((error) => {
+                console.log(error.response)
+                if (error.response.status === 401) {
+                    navigation.navigate('Login')
+                }
+            });
 
-
-        } catch (error) {
-            console.log(error.message)
-            props.navigation.navigate('Login')
-        }
     }
 
-    const getProdutos = async () => {
+
+    const getEachProdutos = async () => {
         try {
             const response = await AsyncStorage.getAllKeys()
             response.map((name, id) => {
@@ -107,6 +111,7 @@ const Load = (props) => {
                             .then(async (res) => {
                                 try {
                                     await AsyncStorage.setItem(`@br-app:produto-${String(produtoId)}`, JSON.stringify(res.data))
+                                    console.log(id+1 +" de " + produtosId.length )
                                     if (id + 1 === produtosId.length) {
                                         console.log('each produto 200')
                                         setEachProduto(true)
@@ -127,17 +132,18 @@ const Load = (props) => {
     }
 
     useEffect(() => {
-        firstProdutos()
-        firstCarrinho()
+        getProdutos()
+        getCarrinho()
+        getClienteDados()
     }, [])
 
     useEffect(() => {
         if (produto) {
-            getProdutos()
+            getEachProdutos()
         }
     }, [produto])
 
-    if (produto && eachProduto && carrinho) {
+    if (produto && eachProduto && carrinho && clienteDados) {
         props.navigation.navigate('Home')
     } else {
 

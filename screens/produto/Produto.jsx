@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import Page from '../../page/Page';
 import styles from './produtoStyles'
-import { CarrinhoContext } from '../../context/CarrinhoContext';
+import { Context } from '../../context/Context';
 
 
 const Quantidade = (props) => {
@@ -16,8 +16,7 @@ const Quantidade = (props) => {
     const tam = props.tam
     const produto = props.produto
     const cor = props.cor
-    /* const carrinho = props.carrinho */
-    const {carrinho} = useContext(CarrinhoContext)
+    const {carrinho} = useContext(Context)
     
 
 
@@ -111,8 +110,7 @@ export default function Produto({ route, navigation }) {
     const [imagem, setImagem] = useState(1)
     const [imgError, setImgError] = useState(false)
     const [corProduto, setCorProduto] = useState(0)
-    /* const [carrinho, setCarrinho] = useState([]) */
-    const {setCarrinho} = useContext(CarrinhoContext)
+    const {setCarrinho} = useContext(Context)
 
     const img = [
         `https://clienteportal.brms.com.br/images/produto/${produto.codigo + produto.itens[corProduto].codigo}-1.jpg`,
@@ -171,7 +169,7 @@ export default function Produto({ route, navigation }) {
     return (
         <Page navigation={navigation}>
             <ScrollView>
-                <View style={styles.produto}>
+                <View style={styles.Produto}>
                     <View style={styles.miniImgs}>
                         {img.map((imagem, id) => {
                             return (
